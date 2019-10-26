@@ -145,7 +145,7 @@ const app = new Vue({
             this.currentCard.card.flipped = false;
         },
         checkForWin: function() {
-            if (this.matchesCount == 9) {
+            if (this.matchesCount == this.matches) {
                 this.win = true;
             }
         },
