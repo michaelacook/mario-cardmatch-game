@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Retro Mario Card Match</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="custom.css"></link>
+    </head>
+    <body>
+        <div id="matchGame">
+            <div class="container">
+                <div class="row">
+                    <!-- GAME AREA -->
+                    <div class="col-6 mx-auto rounded game-area">
+                        <h3 class="text-light font-weight-bold text-center pt-3">{{!win ? 'Mario Bros Matching Game' : 'You Win!'}}</h>
+                        <button v-on:click="start" v-show="!started" class="btn btn-sm btn-success mb-1 ml-2">Start</button>
+                        <img class="start-img" v-show="!started" src="images/shroom.png" />
+                        <ul v-if="started" class="d-flex flex-wrap justify-content-between mt-5 pb-5" style="min-width:inherit;">
+                            <li class="mb-3 ml-2" v-for="(card, index) in cards" v-on:click="runGameSequence(index)">
+                                <span v-if="!card.flipped"><img class="card" v-bind:src="cards[index].front" /></span>
+                                <span v-else><img class="card" v-bind:src="cards[index].back" /></span>
+                            </li>
+                        </ul>
+                        <div v-show="started">
+                            <div v-if="!win" class="d-inline-block">
+                                <button v-if="active" v-on:click="pause" class="btn btn-secondary mb-3">Pause</button>
+                                <button v-else v-on:click="resume" class="btn btn-secondary mb-3">Resume</button>
+                            </div>
+                            <button v-if="!win" v-on:click="stop" class="btn btn-danger mb-3 pl-3 pr-3">Quit</button>
+                            <button v-else v-on:click="start" class="btn btn-success mb-3 pl-3 pr-3">New Game</button>
+                        </div>
+                   </div>
+
+                   <!-- CONTROLS -->
+                   <div class="col-3 mx-auto border pt-4 pr-4 pl-4 rounded controls">
+                       <h4 class="font-weight-bold">Controls</h4>
+                       <form>
+                             <h5 class="mt-3">Sound:</h5>
+                             <select class="custom-select controls-select" v-on:change="toggleAllowSounds">
+                                   <option value="1">On</option>
+                                   <option value="0">Off</option>
+                             </select>
+
+                             <h5 class="mt-3">Music:</h5>
+                             <select class="custom-select controls-select" v-on:change="changeBackgroundMusic">
+                                   <option value="supermario1">Super Mario Bros</option>
+                                   <option value="supermario2">Super Mario Bros 2</option>
+                                   <option value="supermario3" selected>Super Mario Bros 3</option>
+                                   <option value="none">None</option>
+                             </select>
+
+                             <h5 class="mt-3">Background:</h5>
+                             <select class="custom-select controls-select" v-on:change="changeBackgroundColor">
+                                   <option value="light">Light</option>
+                                   <option value="night">Night</option>
+                             </select>
+                       </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>

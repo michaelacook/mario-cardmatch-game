@@ -1,0 +1,37 @@
+ul {
+    list-style-type: none;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+li {
+    margin: 0 !important;
+    /* padding: 2px; */
+}
+
+.card {
+    width: 70px;
+    height:102px;
+}
+
+.game-area {
+    height:569px;
+    margin-top:100px;
+    min-width: 570px;
+    background-color:#3E3E3E;
+}
+
+.controls {
+    margin-top:100px;
+    background-color:#BCBEBC;
+}
+
+.controls-select {
+    background-color:#BCBEBC;
+}
+
+.start-img {
+    margin-top:90px;
+    width:280px;
+    height:280px;
+}
