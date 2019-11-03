@@ -228,7 +228,9 @@ const app = new Vue({
         },
         startMusic: function() {
             if (this.allowSound) {
-                this.backgroundMusic.play();
+                if (this.backgroundMusic) {
+                    this.backgroundMusic.play();
+                }
                 this.backgroundMusic.loop = true;
             }
         },
