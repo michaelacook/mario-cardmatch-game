@@ -9,7 +9,6 @@ const app = new Vue({
         started: false,
         active: false,
         matchesCount: 0,
-        matches: '',
         win: false,
         previousCard: '',
         currentCard: '',
@@ -35,40 +34,53 @@ const app = new Vue({
                 }
             }
         },
-        createShuffledCards: function() {
+        randomize: function(arr) {
+            let newArray = arr.slice();
+            for (let i = newArray.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        },
+        generateShuffledCards: function() {
             const cards = [];
-            for (let i = 0; i <= 17; i++) {
-                cards[i] = {
-                    ...items[Math.floor(Math.random() * 6)]
-                };
+            // Create base of six sets of matches first
+            for (let i = 0; i < 6; i++) {
+                cards.push({ ...items[i] }, { ...items[i] });
             }
-            this.cards = cards;
-        },
-        getNumberOfMatches: function() {
-            const names = ['oneup', 'mushroom', 'flower', 'star', 'coin10', 'coin20'];
-            let matches = 0;
-            for (let i = 0; i <= this.cards.length; i++) {
-                const name = names[i];
-                let count = 0;
-                for (let j = 0; j <= this.cards.length; j++) {
-                    if (this.cards[j] !== undefined) {
-                        if (this.cards[j].name == name) {
-                            count++;
-                        }
-                    }
-                }
-                if (count > 0) {
-                    if (count % 2 !== 0) {
-                        count = (count - (count % 2)) / 2;
-                    } else {
-                        even = true;
-                        count = count / 2;
-                    }
-                    matches += count;
-                }
+            // Add three more sets of matches randomly
+            while (cards.length < 18) {
+                let randint = Math.floor(Math.random() * 6);
+                cards.push({ ...items[randint] }, { ...items[randint] });
             }
-            return matches;
+            // Randomized cards and assign
+            this.cards = this.randomize(cards);
         },
+        // getNumberOfMatches: function() {
+        //     const names = ['oneup', 'mushroom', 'flower', 'star', 'coin10', 'coin20'];
+        //     let matches = 0;
+        //     for (let i = 0; i <= this.cards.length; i++) {
+        //         const name = names[i];
+        //         let count = 0;
+        //         for (let j = 0; j <= this.cards.length; j++) {
+        //             if (this.cards[j] !== undefined) {
+        //                 if (this.cards[j].name == name) {
+        //                     count++;
+        //                 }
+        //             }
+        //         }
+        //         if (count > 0) {
+        //             if (count % 2 !== 0) {
+        //                 count = (count - (count % 2)) / 2;
+        //             } else {
+        //                 even = true;
+        //                 count = count / 2;
+        //             }
+        //             matches += count;
+        //         }
+        //     }
+        //     return matches;
+        // },
         assignCardTrackers: function(index) {
             if (!this.previousCard) {
                 if (!this.cards[index].matched) {
@@ -145,7 +157,7 @@ const app = new Vue({
             this.currentCard.card.flipped = false;
         },
         checkForWin: function() {
-            if (this.matchesCount == this.matches) {
+            if (this.matchesCount == 9) {
                 this.win = true;
             }
         },
@@ -172,8 +184,7 @@ const app = new Vue({
             });
         },
         start: function() {
-            this.createShuffledCards();
-            this.matches = this.getNumberOfMatches();
+            this.generateShuffledCards();
             this.started = true;
             this.active = true;
             if (this.win) {
