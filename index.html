@@ -22,9 +22,12 @@
                 <div class="row m-0">    
                     <!-- GAME AREA -->
                     <div class="ml-0 mx-auto rounded game-area">
-                        <div class="col-4 mt-3 mx-auto" style="height:54px;">
+                        <div class="col-5 mt-3 mx-auto" style="height:54px;">
                             <div v-show="win" class="text-box rounded">
                                 <h5 class="p-2 text-center">You Win!</h5>
+                            </div>
+                            <div v-show="gameOver" class="text-box rounded">
+                                <h5 class="p-2 text-center">Game Over</h5>
                             </div>
                         </div>
                         
@@ -35,7 +38,7 @@
                             </li>
                         </ul>
                         
-                        <div v-show="win" v-on:click="start" class="col-3 mx-auto pl-3 pr-3 bg-white rounded-lg text-box" style="margin-top: 80px; cursor:pointer;">
+                        <div v-show="win || gameOver" v-on:click="start" class="col-3 mx-auto pl-3 pr-3 bg-white rounded-lg text-box" style="margin-top: 80px; cursor:pointer;">
                             <p class="text-dark font-weight-bold pt-3">New Game</p>
                         </div> 
                    </div>

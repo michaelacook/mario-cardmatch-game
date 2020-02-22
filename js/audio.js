@@ -4,5 +4,6 @@ const audio = {
     noMatch: new Audio('audio/nomatch.wav'),
     pause: new Audio('audio/pause.wav'),
     click: new Audio('audio/click.wav'),
-    win: new Audio('audio/win.wav')
+    win: new Audio('audio/win.wav'),
+    gameOver: new Audio('audio/gameOver.wav')
 }

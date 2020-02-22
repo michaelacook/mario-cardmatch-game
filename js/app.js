@@ -6,10 +6,12 @@ const app = new Vue({
         started: false,
         active: false,
         matchesCount: 0,
-        win: false,
+        win: null,
+        gameOver: false,
         previousCard: '',
         currentCard: '',
         numberOfMatches: '',
+        fails: 0,
         sound: sound,
     },
     methods: {
@@ -26,8 +28,8 @@ const app = new Vue({
                     if (this.currentCard) {
                         this.toggleAllowClicks();
                         this.checkIfMatch();
-                        this.checkForWin();
                         this.gameWin();
+                        this.gameover();
                     }
                 }
             }
@@ -108,6 +110,7 @@ const app = new Vue({
             if (this.sound.allowSound) {
                 this.sound.gameSounds.noMatch.play();
             }
+            this.fails++;
             const id = setTimeout(() => {
                 app.flipNonMatch();
                 app.resetCardTrackers();
@@ -118,16 +121,15 @@ const app = new Vue({
             this.allowClick = !this.allowClick;
         },
         flipNonMatch: function() {
-            this.previousCard.card.flipped = false;
-            this.currentCard.card.flipped = false;
-        },
-        checkForWin: function() {
-            if (this.matchesCount == 9) {
-                this.win = true;
+            if (!this.gameOver) {
+                this.previousCard.card.flipped = false;
+                this.currentCard.card.flipped = false;
             }
         },
         gameWin: function() {
-            if (this.win) {
+            if (this.matchesCount === 9) {
+                this.active = false;
+                this.win = true;
                 if (this.sound.backgroundMusic) {
                     this.sound.stopMusic();
                 }
@@ -138,11 +140,28 @@ const app = new Vue({
                     }, 400);
                 }
                 this.flipUnflipped();
-                this.active = false;
+            }
+        },
+        gameover: function() {
+            if (!this.win) {
+                if (this.fails === 4) {
+                    this.active = false;
+                    this.win = false;
+                    this.gameOver = true;
+                    if (this.sound.backgroundMusic) {
+                        this.sound.stopMusic();
+                    }
+                    if (this.sound.allowSound) {
+                        this.sound.gameSounds.noMatch.play();
+                        setTimeout(() => {
+                            this.sound.gameSounds.gameOver.play();
+                        }, 650);
+                    }
+                }
             }
         },
         flipUnflipped: function() {
-            this.cards.forEach(function(card) {
+            this.cards.forEach((card) => {
                 if (!card.flipped) {
                     card.flipped = true;
                 }
@@ -152,8 +171,10 @@ const app = new Vue({
             this.generateShuffledCards();
             this.started = true;
             this.active = true;
+            this.gameOver = false;
+            this.fails = 0;
             if (this.win) {
-                this.win = false;
+                this.win = null;
             }
             if (!this.allowClick) {
                 this.allowClick = true;
