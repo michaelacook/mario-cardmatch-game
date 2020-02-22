@@ -16,20 +16,22 @@ const app = new Vue({
     },
     methods: {
         runGameSequence: function(index){
-            if (!this.cards[index].matched) {
-                if (this.allowClick) {
-                    this.flipCard(index);
-                    if (!this.previousCard) {
-                        if (this.sound.allowSound) {
-                            this.sound.gameSounds.click.play();
+            if (this.active) {
+                if (!this.cards[index].matched) {
+                    if (this.allowClick) {
+                        this.flipCard(index);
+                        if (!this.previousCard) {
+                            if (this.sound.allowSound) {
+                                this.sound.gameSounds.click.play();
+                            }
                         }
-                    }
-                    this.assignCardTrackers(index);
-                    if (this.currentCard) {
-                        this.toggleAllowClicks();
-                        this.checkIfMatch();
-                        this.gameWin();
-                        this.gameover();
+                        this.assignCardTrackers(index);
+                        if (this.currentCard) {
+                            this.toggleAllowClicks();
+                            this.checkIfMatch();
+                            this.gameWin();
+                            this.gameover();
+                        }
                     }
                 }
             }
