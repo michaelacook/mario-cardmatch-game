@@ -5,6 +5,7 @@ sounds from all three games in the original NES Mario Bros franchise.
 ## Built With
 * [Vue.js](https://vuejs.org/)
 * [Bootstrap](https://getbootstrap.com/)
+* [Font Awesome](https://fontawesome.com/)
 
 ## Authors
 * Michael Cook

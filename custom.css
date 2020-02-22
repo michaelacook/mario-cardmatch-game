@@ -1,3 +1,10 @@
+body {
+    background-image: url('images/mario3.png');
+    /* background-repeat: no-repeat; */
+    /* background-size: auto; */
+    font-family: 'Press Start 2P';
+}
+
 ul {
     list-style-type: none;
     margin-left: 0 !important;
@@ -10,28 +17,31 @@ li {
 }
 
 .card {
-    width: 70px;
-    height:102px;
+    width: 90px;
+    height:112px;
+    box-shadow: 7px 7px 2px black;
+    border: 3px solid black;
 }
 
 .game-area {
-    height:569px;
-    margin-top:100px;
-    min-width: 570px;
-    background-color:#3E3E3E;
+    margin-top:50px;
+    width: 665px;
 }
 
-.controls {
-    margin-top:100px;
-    background-color:#BCBEBC;
+.game-area ul {
+    position: relative;
+    top: 40px;
 }
 
-.controls-select {
-    background-color:#BCBEBC;
+.new-game-btn {
+    position: relative;
+    top: 100px;
 }
 
-.start-img {
-    margin-top:90px;
-    width:280px;
-    height:280px;
+.text-box {
+    color: black;
+    background-color: white;
+    box-shadow: 7px 7px 2px black; 
+    border: 3px solid black;
+    box-sizing: border-box;
 }

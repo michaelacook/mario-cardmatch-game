@@ -1,18 +1,16 @@
 const app = new Vue({
     el: '#matchGame',
     data: {
-        cards: '',
-        gameSounds: audio,
-        backgroundMusic: audio.supermario3,
+        cards: null,
         allowClick: true,
-        allowSound: true,
         started: false,
         active: false,
         matchesCount: 0,
         win: false,
         previousCard: '',
         currentCard: '',
-        numberOfMatches: ''
+        numberOfMatches: '',
+        sound: sound,
     },
     methods: {
         runGameSequence: function(index){
@@ -20,8 +18,8 @@ const app = new Vue({
                 if (this.allowClick) {
                     this.flipCard(index);
                     if (!this.previousCard) {
-                        if (this.allowSound) {
-                            this.gameSounds.coin.play();
+                        if (this.sound.allowSound) {
+                            this.sound.gameSounds.click.play();
                         }
                     }
                     this.assignCardTrackers(index);
@@ -56,31 +54,6 @@ const app = new Vue({
             // Randomized cards and assign
             this.cards = this.randomize(cards);
         },
-        // getNumberOfMatches: function() {
-        //     const names = ['oneup', 'mushroom', 'flower', 'star', 'coin10', 'coin20'];
-        //     let matches = 0;
-        //     for (let i = 0; i <= this.cards.length; i++) {
-        //         const name = names[i];
-        //         let count = 0;
-        //         for (let j = 0; j <= this.cards.length; j++) {
-        //             if (this.cards[j] !== undefined) {
-        //                 if (this.cards[j].name == name) {
-        //                     count++;
-        //                 }
-        //             }
-        //         }
-        //         if (count > 0) {
-        //             if (count % 2 !== 0) {
-        //                 count = (count - (count % 2)) / 2;
-        //             } else {
-        //                 even = true;
-        //                 count = count / 2;
-        //             }
-        //             matches += count;
-        //         }
-        //     }
-        //     return matches;
-        // },
         assignCardTrackers: function(index) {
             if (!this.previousCard) {
                 if (!this.cards[index].matched) {
@@ -109,8 +82,8 @@ const app = new Vue({
         },
         checkIfMatch: function() {
             if (this.currentCard.i == this.previousCard.i) {
-                if (this.allowSound) {
-                    this.gameSounds.noMatch.play();
+                if (this.sound.allowSound) {
+                    this.sound.gameSounds.noMatch.play();
                 }
                 return;
             } else {
@@ -120,8 +93,8 @@ const app = new Vue({
                         this.cards[this.previousCard.i].matched = true;
                         this.cards[this.currentCard.i].matched = true;
                         this.matchesCount++;
-                        if (this.allowSound) {
-                            this.gameSounds.match.play();
+                        if (this.sound.allowSound) {
+                            this.sound.gameSounds.match.play();
                         }
                         this.resetCardTrackers();
                         this.toggleAllowClicks();
@@ -132,10 +105,10 @@ const app = new Vue({
             }
         },
         notMatch: function() {
-            if (this.allowSound) {
-                app.gameSounds.noMatch.play();
+            if (this.sound.allowSound) {
+                this.sound.gameSounds.noMatch.play();
             }
-            const id = setTimeout(function() {
+            const id = setTimeout(() => {
                 app.flipNonMatch();
                 app.resetCardTrackers();
                 app.toggleAllowClicks();
@@ -143,14 +116,6 @@ const app = new Vue({
         },
         toggleAllowClicks: function() {
             this.allowClick = !this.allowClick;
-        },
-        toggleAllowSounds: function() {
-            if (event.target.value == 1) {
-                this.allowSound = true;
-            } else if (event.target.value == 0) {
-                this.allowSound = false;
-                this.stopMusic();
-            }
         },
         flipNonMatch: function() {
             this.previousCard.card.flipped = false;
@@ -163,13 +128,13 @@ const app = new Vue({
         },
         gameWin: function() {
             if (this.win) {
-                if (this.backgroundMusic) {
-                    this.stopMusic();
+                if (this.sound.backgroundMusic) {
+                    this.sound.stopMusic();
                 }
-                if (this.allowSound) {
-                    this.gameSounds.match.play();
-                    setTimeout(function() {
-                        app.gameSounds.win.play();
+                if (this.sound.allowSound) {
+                    this.sound.gameSounds.match.play();
+                    setTimeout(() => {
+                        this.sound.gameSounds.win.play();
                     }, 400);
                 }
                 this.flipUnflipped();
@@ -196,82 +161,12 @@ const app = new Vue({
             if (this.matchesCount) {
                 this.matchesCount = 0;
             }
-            this.startMusic();
-        },
-        stop: function() {
-            this.allowClick = false;
-            this.started = false;
-            this.resetCardTrackers();
-            this.matchesCount = 0;
-            this.cards = '';
-            if (this.backgroundMusic) {
-                this.stopMusic();
+            if (this.sound.allowSound) {
+                this.sound.startMusic();
             }
         },
-        pause: function() {
-            this.active = false;
-            if (this.allowSound) {
-                this.gameSounds.pause.play();
-            }
-            if (this.allowClick) {
-                this.toggleAllowClicks();
-            }
-            this.backgroundMusic.pause();
-        },
-        resume: function() {
-            this.active = true;
-            this.toggleAllowClicks();
-            if (this.allowSound) {
-                this.gameSounds.pause.play();
-                this.backgroundMusic.play();
-            }
-        },
-        startMusic: function() {
-            if (this.allowSound) {
-                if (this.backgroundMusic) {
-                    this.backgroundMusic.play();
-                }
-                this.backgroundMusic.loop = true;
-            }
-        },
-        stopMusic: function() {
-            this.backgroundMusic.pause();
-            this.backgroundMusic.currentTime = 0;
-            this.backgroundMusic.loop = false;
-        },
-        changeBackgroundMusic: function() {
-            if (this.backgroundMusic) {
-                this.stopMusic();
-            }
-            switch(event.target.value) {
-                case 'supermario1':
-                    this.backgroundMusic = this.gameSounds.supermario1;
-                    break;
-                case 'supermario2':
-                    this.backgroundMusic = this.gameSounds.supermario2;
-                    break;
-                case 'supermario3':
-                    this.backgroundMusic = this.gameSounds.supermario3;
-                    break;
-                case 'none':
-                    this.stopMusic();
-                    this.backgroundMusic = '';
-                    break;
-            }
-            if (this.backgroundMusic) {
-                this.startMusic();
-            }
-        },
-        changeBackgroundColor: function() {
-            const body = document.querySelector('body');
-            switch(event.target.value) {
-                case 'light':
-                    body.style.backgroundColor = 'white';
-                    break;
-                case 'night':
-                    body.style.backgroundColor = '#3E3E3E';
-                    break;
-            }
-        }
-    }
+    },
+    mounted: function() {
+        this.start();
+    },
 });
