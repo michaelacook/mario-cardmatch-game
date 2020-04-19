@@ -1,6 +1,5 @@
 body {
     background-image: url('images/mario3.png');
-    /* background-repeat: no-repeat; */
     /* background-size: auto; */
     font-family: 'Press Start 2P';
 }
@@ -16,6 +15,10 @@ li {
     /* padding: 2px; */
 }
 
+.header {
+    width: 555px;
+}
+
 .card {
     width: 90px;
     height:112px;
@@ -26,6 +29,7 @@ li {
 .game-area {
     margin-top:50px;
     width: 665px;
+    min-width: 665px;
 }
 
 .game-area ul {
