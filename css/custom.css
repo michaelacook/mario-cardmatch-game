@@ -1,5 +1,5 @@
 body {
-    background-image: url('images/mario3.png');
+    background-image: url('../images/mario3.png');
     /* background-size: auto; */
     font-family: 'Press Start 2P';
 }
