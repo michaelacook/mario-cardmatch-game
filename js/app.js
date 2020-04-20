@@ -146,7 +146,7 @@ const app = new Vue({
         },
         gameover: function() {
             if (!this.win) {
-                if (this.fails === 4) {
+                if (this.fails === 5) {
                     this.active = false;
                     this.win = false;
                     this.gameOver = true;
