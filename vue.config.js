@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/vuejs-mario-cardmatch/'
-}
+  publicPath: "/vuejs-mario-cardmatch/",
+};
