@@ -6,4 +6,4 @@ const audio = {
   click: new Audio("audio/click.wav"),
   win: new Audio("audio/win.wav"),
   gameOver: new Audio("audio/gameOver.wav"),
-};
+}

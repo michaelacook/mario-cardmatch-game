@@ -41,4 +41,4 @@ const items = [
     flipped: false,
     matched: false,
   },
-];
+]
