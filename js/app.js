@@ -149,6 +149,7 @@ const app = new Vue({
     gameover: function () {
       if (!this.win) {
         if (this.fails === 5) {
+          this.allowClick = false
           this.active = false
           this.win = false
           this.gameOver = true
@@ -177,13 +178,12 @@ const app = new Vue({
       this.active = true
       this.gameOver = false
       this.fails = 0
-      this.allowClick = true
       if (this.win) {
         this.win = null
       }
-      // if (!this.allowClick) {
-      //   this.allowClick = true;
-      // }
+      if (!this.allowClick) {
+        this.allowClick = true;
+      }
       if (this.matchesCount) {
         this.matchesCount = 0
       }
